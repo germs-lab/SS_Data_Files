@@ -12,7 +12,7 @@ for file in $Input; do
 	python $the_path/Working_Files/Parse.py $file $Output/blast_Files $the_path
 done
 
-#wc -l $Output/blast_Files/*.fa | cut -f1 -d '.' | sed 's|Output/blast_Files/||g' | sed '/total/d' > $Output/Counts.list
+wc -l $Output/blast_Files/*.fa | cut -f1 -d '.' | sed 's|Output/blast_Files/||g' | sed '/total/d' > $Output/Counts.list
 
 
 #Rscript Working_Files/plot_output.r $Output/Counts.list $Output/Graph.png --save
