@@ -13,7 +13,7 @@ total <- cbind(abund, x)
  plasmid proph  vir
                    
     5732  1515 1530
-
+library(ggplot2)
 setwd("~/scratch/SS_Data_Files/")
 arg <- read.delim(sep=",", file="erm_class_phyla_counts.csv", header=FALSE, strip.white=TRUE)
 arg$V5 <- NULL
@@ -21,6 +21,9 @@ arg$V6 <- NULL
 arg2 <- subset(arg, V1 == "Manure" | V1 == "Soil")
 ggplot(arg2, aes(x=V2, y=V4, fill=V3))+geom_bar(stat="identity")+facet_grid(~V1)
 arg2_man <- subset(arg2, V1 == "Manure")
+library(dplyr)
+library(plyr)
+
 f=ddply(arg2_man, .(V1, V2), summarise, TOT=sum(REL))
 ordering=f$V2[order(-f$TOT)]
 arg2_soil <- subset(arg2, V1 == "Soil")
@@ -37,4 +40,4 @@ tot <- subset(tot, V2 != "NA")
 tot <- subset(tot, V3 != "uncultured_bacterium" )
 tot <- subset(tot, V3 != "Plasmid" )
 tot <- subset(tot, V3 != "plasmids." )
-ggplot(tot, aes(x=V2, y=REL, fill=V3))+geom_bar(stat="identity")+facet_grid(~V1)+theme_bw()+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("Relative Abundance in Environment")+guides(fill=guide_legend(title="Phyla"))+theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())+xlab("")
+ggplot(tot, aes(x=V2, y=REL, fill=V3))+geom_bar(stat="identity")+facet_grid(~V1)+theme_bw()+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("Relative Abundance in Environment")+xlab("Genes Associated with Resistance to Antibiotic Class")+guides(fill=guide_legend(title="Phyla"))+theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())+facet_wrap(~V1, strip.position="top")+theme(text=element_text(size=20))+theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust =0.5))
